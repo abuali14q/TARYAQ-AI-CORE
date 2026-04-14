@@ -2,12 +2,23 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from datetime import datetime
-import time
 import plotly.graph_objects as go
 import plotly.express as px
 
 # --- 1. SETTINGS & ADVANCED STYLING ---
 st.set_page_config(page_title="TARYAQ | AI Prediction", page_icon="🏗️", layout="wide")
+
+# --- REGION COORDINATES & DATA ---
+region_data = {
+    "Riyadh Sector": {"lat": 24.7136, "lon": 46.6753, "zoom": 10, "ar": "قطاع الرياض", "en": "Riyadh Sector"},
+    "NEOM": {"lat": 28.0833, "lon": 34.9500, "zoom": 7, "ar": "نيوم", "en": "NEOM"},
+    "Jeddah": {"lat": 21.5433, "lon": 39.1728, "zoom": 10, "ar": "جدة", "en": "Jeddah"},
+    "Eastern Province": {"lat": 26.2833, "lon": 50.2000, "zoom": 9, "ar": "المنطقة الشرقية", "en": "Eastern Province"},
+    "Asir": {"lat": 18.2164, "lon": 42.5053, "zoom": 9, "ar": "عسير", "en": "Asir"}
+}
+
+phases_ar = ["دراسة جدوى المشروع", "أعمال الحفر", "صب البلاطات الخرسانية", "الفحص النهائي وتسليم المشروع"]
+phases_en = ["Project Feasibility Study", "Excavation Works", "Pouring Concrete Slabs", "Final Inspection"]
 
 # --- TRANSLATIONS DICTIONARY ---
 translations = {
@@ -17,8 +28,11 @@ translations = {
         "app_title": "🏢 منصة تنبؤ بمخاطر مشاريع البناء (ذكاء اصطناعي)",
         "sidebar_title": "TARYAQ AI CORE",
         "region": "المنطقة",
+        "regions_list": [r["ar"] for r in region_data.values()],
         "scale": "حجم المشروع",
+        "scale_list": ["صغير", "متوسط", "كبير", "ضخم"],
         "phase": "المرحلة",
+        "phases_list": phases_ar,
         "start_date": "تاريخ البدء",
         "target_days": "المدة المستهدفة (أيام)",
         "labor_eff": "مؤشر كفاءة العمالة",
@@ -27,7 +41,7 @@ translations = {
         "expected_delay": "التأخير المتوقع",
         "days": "يوم",
         "cost_overrun": "تجاوز التكلفة المتوقع",
-        "map_title": "حالة المشروع الجغرافية",
+        "map_title": "حالة المشروع الجغرافية - ",
         "kpis": "مؤشرات الأداء (KPIs)",
         "weather": "الطقس",
         "materials": "توفر المواد",
@@ -41,7 +55,9 @@ translations = {
         "rec_weather_alert": "تعديل جدول صب الخرسانة لتفادي الإجهاد الحراري",
         "rec_weather_desc": "بناءً على التنبؤات المناخية للمنطقة",
         "rec_weather_ok": "تحديث سجل المخاطر الأسبوعي",
-        "footer": "طور بواسطة أحمد محمد المسلم وجميع الحقوق محفوظة له"
+        "footer": "طور بواسطة أحمد محمد المسلم وجميع الحقوق محفوظة له",
+        "ai_insight_title": "🤖 تحليل الذكاء الاصطناعي المباشر:",
+        "ai_insight_text": "بناءً على المعطيات في **{0}**، فإن الطقس المتوقع هو **{1}** وحالة سلاسل التوريد **{2}**. نسبة الخطر الحالية **{3}%**."
     },
     "🇬🇧 English": {
         "dir": "ltr",
@@ -49,8 +65,11 @@ translations = {
         "app_title": "🏢 Construction Project Risk Prediction (AI)",
         "sidebar_title": "TARYAQ AI CORE",
         "region": "Region",
+        "regions_list": [r["en"] for r in region_data.values()],
         "scale": "Project Scale",
+        "scale_list": ["Small", "Medium", "Large", "Mega"],
         "phase": "Phase",
+        "phases_list": phases_en,
         "start_date": "Start Date",
         "target_days": "Target Duration (Days)",
         "labor_eff": "Labor Efficiency Index",
@@ -59,7 +78,7 @@ translations = {
         "expected_delay": "Expected Delay",
         "days": "Days",
         "cost_overrun": "Expected Cost Overrun",
-        "map_title": "Geographical Project Status",
+        "map_title": "Geographical Project Status - ",
         "kpis": "Key Performance Indicators (KPIs)",
         "weather": "Weather",
         "materials": "Material Availability",
@@ -73,93 +92,85 @@ translations = {
         "rec_weather_alert": "Adjust concrete pouring to avoid thermal stress",
         "rec_weather_desc": "Based on regional climate forecasts",
         "rec_weather_ok": "Update weekly risk register",
-        "footer": "Developed by Ahmad M. Al Musallem. All rights reserved."
+        "footer": "Developed by Ahmad M. Al Musallem. All rights reserved.",
+        "ai_insight_title": "🤖 Live AI Analysis:",
+        "ai_insight_text": "Based on data for **{0}**, the expected weather is **{1}** and supply chain is **{2}**. Current risk rate is **{3}%**."
     }
 }
 
 # --- 2. SIDEBAR & LANGUAGE SELECTION ---
 with st.sidebar:
-    # Language Dropdown with Flags
-    lang_choice = st.selectbox("", ["🇸🇦 العربية", "🇬🇧 English"])
-    t = translations[lang_choice] # Load selected dictionary
+    lang_choice = st.selectbox("🌐 اختر اللغة / Select Language", ["🇸🇦 العربية", "🇬🇧 English"])
+    t = translations[lang_choice] 
+    is_arabic = lang_choice == "🇸🇦 العربية"
     
     st.image("https://cdn-icons-png.flaticon.com/512/3252/3252119.png", width=70)
     st.markdown(f"### {t['sidebar_title']}")
     
-    region = st.selectbox(t["region"], ["Riyadh Sector", "NEOM", "Jeddah", "Eastern Province", "Asir"])
-    p_size = st.selectbox(t["scale"], ["Small", "Medium", "Large", "Mega"])
-    p_phase = st.selectbox(t["phase"], ["Project Feasibility Study", "Excavation Works", "Pouring Concrete Slabs", "Final Inspection"])
+    selected_region_display = st.selectbox(t["region"], t["regions_list"])
+    p_size = st.selectbox(t["scale"], t["scale_list"])
+    p_phase = st.selectbox(t["phase"], t["phases_list"])
     p_date = st.date_input(t["start_date"], datetime.now())
     p_days = st.number_input(t["target_days"], min_value=1, value=15)
     p_labor = st.slider(t["labor_eff"], 0.1, 1.0, 0.85)
 
     analyze_btn = st.button(t["update_btn"], use_container_width=True)
 
+# Find internal region key based on selection
+internal_region = list(region_data.keys())[t["regions_list"].index(selected_region_display)]
+
 # --- 3. DYNAMIC CSS INJECTION ---
 st.markdown(f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
     
-    /* Apply Dynamic RTL/LTR and Font */
     html, body, [class*="css"] {{
         font-family: 'Tajawal', sans-serif !important;
         direction: {t['dir']};
         text-align: {t['align']};
     }}
     
-    /* Dark Theme Backgrounds */
-    .stApp {{
-        background-color: #12161f;
-    }}
-    
-    section[data-testid="stSidebar"] {{
-        background-color: #1a1e27;
-        border-right: 1px solid #2d3342;
-        border-left: 1px solid #2d3342;
-    }}
+    .stApp {{ background-color: #12161f; }}
+    section[data-testid="stSidebar"] {{ background-color: #1a1e27; border-right: 1px solid #2d3342; border-left: 1px solid #2d3342; }}
 
-    /* Dashboard Cards */
     .dash-card {{
-        background-color: #1a1e27;
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        margin-bottom: 20px;
-        border: 1px solid #2d3342;
-        color: white;
+        background-color: #1a1e27; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        margin-bottom: 20px; border: 1px solid #2d3342; color: white;
     }}
     
     .metric-value {{ font-size: 32px; font-weight: bold; color: #ef4444; margin-top: 10px; margin-bottom: 5px; }}
     .metric-label {{ font-size: 14px; color: #94a3b8; }}
-    .header-title {{ color: white; font-size: 28px; font-weight: bold; margin-bottom: 30px; display: flex; align-items: center; gap: 15px; }}
+    .header-title {{ color: white; font-size: 28px; font-weight: bold; margin-bottom: 20px; display: flex; align-items: center; gap: 15px; }}
+    
+    .ai-speech-box {{
+        background: linear-gradient(90deg, rgba(59,130,246,0.1) 0%, rgba(16,185,129,0.05) 100%);
+        border-left: 4px solid #3b82f6; border-right: 4px solid #3b82f6;
+        padding: 15px 20px; border-radius: 8px; margin-bottom: 25px; color: #e2e8f0; font-size: 16px;
+    }}
 
-    /* Alerts and Recommendations */
     .alert-box {{
         background-color: #1a1e27; border: 1px solid #2d3342; padding: 15px; border-radius: 8px; 
         display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; color: #cbd5e1;
     }}
     .alert-icon {{ color: #ef4444; font-size: 20px; }}
 
-    /* Integration Logos */
     .integration-box {{
         background-color: #1a1e27; border: 1px solid #2d3342; padding: 20px; border-radius: 8px; 
         text-align: center; color: white; font-weight: bold;
     }}
 
     .footer {{ position: fixed; left: 0; bottom: 0; width: 100%; text-align: center; color: #8b949e; font-size: 12px; padding: 12px; background-color: #161b22; z-index: 1000; direction: ltr;}}
-    
-    /* Fix Plotly margins based on direction */
     .js-plotly-plot .plotly {{ direction: ltr !important; }}
     </style>
     """, unsafe_allow_html=True)
 
 # --- 4. INTELLIGENCE ENGINES ---
-def simulate_global_search(region):
-    if region in ["NEOM", "Jeddah"]: return "Volatile"
-    elif region == "Riyadh Sector": return "Constrained"
+def simulate_global_search(region_key):
+    if region_key in ["NEOM", "Jeddah"]: return "Volatile"
+    elif region_key == "Riyadh Sector": return "Constrained"
     else: return "Stable"
 
-def get_refined_weather(region, date):
+def get_refined_weather(date):
     month = date.month
     if month in [6, 7, 8, 9]: return "Extreme Heat"
     elif month in [12, 1, 2]: return "Cold"
@@ -168,8 +179,7 @@ def get_refined_weather(region, date):
 # --- 5. PLOTLY CHART HELPERS ---
 def create_gauge(value, title):
     fig = go.Figure(go.Indicator(
-        mode="gauge+number",
-        value=value,
+        mode="gauge+number", value=value,
         title={'text': title, 'font': {'color': 'white', 'size': 14}},
         number={'font': {'color': 'white', 'size': 24}, 'suffix': "%"},
         gauge={
@@ -190,19 +200,35 @@ def create_sparkline(color):
 
 # --- 6. MAIN DASHBOARD ---
 # Logic Calculation
-w_status = get_refined_weather(region, p_date)
-sc_status = simulate_global_search(region)
+w_status_en = get_refined_weather(p_date)
+sc_status_en = simulate_global_search(internal_region)
+
+# Translations for dynamic text
+weather_dict = {"Extreme Heat": "حرارة شديدة", "Cold": "بارد", "Variable": "متقلب"}
+sc_dict = {"Volatile": "مضطربة", "Constrained": "مقيدة", "Stable": "مستقرة"}
+
+w_status_display = weather_dict[w_status_en] if is_arabic else w_status_en
+sc_status_display = sc_dict[sc_status_en] if is_arabic else sc_status_en
 
 base_delay = (1.0 - p_labor) * (p_days * 0.5)
-weather_delay = p_days * 0.3 if "Extreme" in w_status else 0
-supply_delay = p_days * 0.4 if sc_status == "Volatile" else 0
+weather_delay = p_days * 0.3 if w_status_en == "Extreme Heat" else 0
+supply_delay = p_days * 0.4 if sc_status_en == "Volatile" else 0
 p_var = round(base_delay + weather_delay + supply_delay, 2)
 
 risk_percentage = min(int((p_var / p_days) * 100) + 20, 99)
 cost_overrun_val = min(int((p_var / p_days) * 40), 100)
 
-# Title
+# Dashboard Title
 st.markdown(f'<div class="header-title">{t["app_title"]}</div>', unsafe_allow_html=True)
+
+# AI Speech Box
+ai_text_formatted = t["ai_insight_text"].format(selected_region_display, w_status_display, sc_status_display, risk_percentage)
+st.markdown(f"""
+<div class="ai-speech-box">
+    <strong>{t["ai_insight_title"]}</strong><br>
+    {ai_text_formatted}
+</div>
+""", unsafe_allow_html=True)
 
 # Top Row: Metrics, Map, KPIs
 col1, col2, col3 = st.columns([1, 2, 1])
@@ -222,11 +248,14 @@ with col1:
     """, unsafe_allow_html=True)
     
 with col2:
-    df_map = pd.DataFrame({'lat': [24.7136, 24.7200], 'lon': [46.6753, 46.6800], 'size': [50, 80]})
-    fig_map = px.scatter_mapbox(df_map, lat="lat", lon="lon", size="size", color_discrete_sequence=["red"], zoom=12, mapbox_style="carto-darkmatter")
+    # Dynamic Map Based on Region
+    r_data = region_data[internal_region]
+    df_map = pd.DataFrame({'lat': [r_data['lat']], 'lon': [r_data['lon']], 'size': [100]})
+    fig_map = px.scatter_mapbox(df_map, lat="lat", lon="lon", size="size", color_discrete_sequence=["#ef4444"], zoom=r_data['zoom'], mapbox_style="carto-darkmatter")
     fig_map.update_layout(margin=dict(l=0, r=0, t=0, b=0), height=320, paper_bgcolor="rgba(0,0,0,0)")
+    
     st.markdown('<div class="dash-card" style="padding: 10px;">', unsafe_allow_html=True)
-    st.markdown(f'<div style="color:white; margin-bottom:10px; font-weight:bold;">{t["map_title"]}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="color:white; margin-bottom:10px; font-weight:bold;">{t["map_title"]} {selected_region_display}</div>', unsafe_allow_html=True)
     st.plotly_chart(fig_map, use_container_width=True, config={'displayModeBar': False})
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -243,9 +272,7 @@ with col3:
     st.markdown('</div>', unsafe_allow_html=True)
 
 # Middle Row: Sparklines
-st.markdown('<div style="margin-top: 10px;"></div>', unsafe_allow_html=True)
 c1, c2, c3, c4 = st.columns(4)
-
 with c1:
     st.markdown(f'<div class="dash-card"><div class="metric-label">{t["weather"]}</div>', unsafe_allow_html=True)
     st.plotly_chart(create_sparkline("#3b82f6"), use_container_width=True, config={'displayModeBar': False})
@@ -279,14 +306,14 @@ with r1:
 with r2:
     st.markdown(f'<div class="dash-card"><div class="metric-label" style="margin-bottom: 15px;">{t["recommendations"]}</div>', unsafe_allow_html=True)
     
-    # Dynamic Recommendations based on logic
-    rec1 = t["rec_supply_alert"] if sc_status != "Stable" else t["rec_supply_ok"]
-    desc1 = t["rec_supply_desc"] if sc_status != "Stable" else ""
-    icon1 = "⚠️" if sc_status != "Stable" else "✅"
+    # Dynamic Recommendations
+    rec1 = t["rec_supply_alert"] if sc_status_en != "Stable" else t["rec_supply_ok"]
+    desc1 = t["rec_supply_desc"] if sc_status_en != "Stable" else ""
+    icon1 = "⚠️" if sc_status_en != "Stable" else "✅"
     
-    rec2 = t["rec_weather_alert"] if "Extreme" in w_status else t["rec_weather_ok"]
-    desc2 = t["rec_weather_desc"] if "Extreme" in w_status else ""
-    icon2 = "⚠️" if "Extreme" in w_status else "✅"
+    rec2 = t["rec_weather_alert"] if w_status_en == "Extreme Heat" else t["rec_weather_ok"]
+    desc2 = t["rec_weather_desc"] if w_status_en == "Extreme Heat" else ""
+    icon2 = "⚠️" if w_status_en == "Extreme Heat" else "✅"
     
     st.markdown(f"""
     <div style="display: flex; gap: 15px;">
