@@ -27,10 +27,11 @@ translations = {
     "🇸🇦 AR": {
         "dir": "rtl",
         "align": "right",
-        "app_title": "نموذج تنبؤي ذكي لإدارة المشاريع وتقليل التأخيرات",
+        "app_title": "نموذج تنبؤي "
+        " لإدارة المشاريع وتقليل التأخيرات",
         "idea_desc_title": "💡 وصف الفكرة",
         "idea_desc": "يقترح هذا المشروع تطوير نموذج ذكاء اصطناعي لتحليل بيانات المشاريع السابقة والتنبؤ بالمخاطر المحتملة مثل التأخيرات أو زيادة التكاليف. يعتمد النموذج على تحليل عوامل مثل الطقس، توفر المواد، أداء العمالة، وسلاسل التوريد. يقوم النظام بإعطاء توصيات استباقية لمديري المشاريع لتجنب المشاكل قبل حدوثها. يمكن دمجه مع برامج إدارة المشاريع مثل Primavera أو BIM لتحقيق تكامل شامل. يساهم هذا الحل في رفع كفاءة إدارة المشاريع وتقليل الهدر الزمني والمالي، مما يعزز الاستدامة الاقتصادية. كما أنه يتماشى مع أهداف الملتقى في تطوير حلول قابلة للتطبيق وتحاكي التحديات الواقعية في قطاع البناء.",
-        "sidebar_title": "TARYAQ AI CORE",
+        "sidebar_title": "استباق",
         "region": "المنطقة",
         "regions_list": ["قطاع الرياض", "نيوم", "جدة", "الشرقية", "عسير"],
         "scale": "حجم المشروع",
@@ -55,7 +56,29 @@ translations = {
         "rec_supply_desc": "لتفادي نقص التوريد المتوقع في الأسابيع القادمة",
         "rec_weather": "تعديل أوقات العمل لتفادي الإجهاد",
         "rec_weather_desc": "بناءً على التنبؤات المناخية القادمة للمنطقة",
-        "footer": "طور بواسطة أحمد محمد المسلم"
+        "future_features": "المميزات المستقبلية",
+        "future_feature_label": "ميزة مستقبلية",
+        "import_xer": "استيراد ملف XER",
+        "import_data": "استيراد بيانات ",
+        "parameters": "المعطيات",
+        "project_budget": "ميزانية المشروع (ريال سعودي)",
+        "expected_risks": "المخاطر المتوقعة ",
+        "footer": "طور بواسطة فريق الشرقيه",
+        "inflation_rate": "معدل التضخم المتوقع",
+        "carbon_footprint": "البصمة الكربونية",
+        "requirements_compliance": "مطابقة الاشتراطات",
+        "inflation_unit": "%",
+        "carbon_unit": "طن CO₂",
+        "compliance_status": "مطابق",
+        "compliance_fail": "غير مطابق",
+        "report_title": "تقرير تحليلي مفصل",
+        "report_intro": "بناءً على المعطيات المدخلة وتحليل نموذج الذكاء الاصطناعي، يظهر المشروع <b>معدل خطر حالي يبلغ {risk_percentage}%</b>. هذا المؤشر يعكس الاحتمالية الكلية لحدوث تحديات قد تؤثر سلباً على سير العمل، ويتأثر بعوامل متعددة مثل كفاءة العمالة، حجم المشروع، والظروف البيئية. يعد فهم هذا المعدل حيويًا لاتخاذ قرارات استباقية للتخفيف من المخاطر المحتملة وضمان استقرار المشروع.",
+        "report_delay": "فيما يخص التأخير الزمني، يتوقع النظام <b>تأخيرًا إجماليًا قدره {p_var} {days}</b>. وقد تم تحديد <b>{delay_primary_reason}</b> كسبب رئيسي لهذا التأخير. يشمل تحليل التأخير تقييمًا دقيقًا لتأثير كفاءة العمالة، والظروف الجوية في المنطقة المختارة ({sel_region})، وحجم المشروع ({sel_size})، بالإضافة إلى مدى كفاية الميزانية المخصصة ({sel_budget} ريال سعودي)، وتعقيد المخاطر المتوقعة المدخلة يدويًا. هذه التنبؤات توفر نظرة شاملة للتحديات الزمنية القادمة.",
+        "report_cost_overrun": "أما بالنسبة للتكلفة، فالتوقعات تشير إلى <b>تجاوز في التكلفة بنسبة {cost_overrun_val}%</b> من الميزانية الأصلية. يرتبط هذا التجاوز بشكل مباشر بالتأخيرات المتوقعة والعوامل التي تؤثر على كفاءة التنفيذ وتوفر الموارد. يعتبر التحكم في التكلفة وتجنب تجاوزاتها أحد الأهداف الأساسية لأي مشروع ناجح، ويقدم هذا التنبؤ تحذيرًا مبكرًا لإعادة تقييم الميزانيات وتخصيص الموارد بشكل أفضل.",
+        "report_environmental_economic": "بخصوص المؤشرات البيئية والاقتصادية، يبلغ <b>معدل التضخم المتوقع {inflation_rate}{inflation_unit}</b>. يتأثر هذا المعدل بمدة المشروع الكلية (على أساس {sel_days} يومًا) والمنطقة الجغرافية، مما يشير إلى التأثيرات الاقتصادية المحتملة على تكاليف المواد والعمالة على المدى الطويل. بالإضافة إلى ذلك، تم تقدير <b>البصمة الكربونية للمشروع بحوالي {carbon_footprint} {carbon_unit}</b>. هذا التقدير يعتمد على حجم المشروع والمنطقة الجغرافية وكفاءة العمالة، ويسلط الضوء على الأثر البيئي للمشروع، مما يدعم مبادرات الاستدامة والامتثال للمعايير البيئية.",
+        "report_compliance": "وأخيرًا، يوضح تقييم <b>مطابقة الاشتراطات أن المشروع {compliance_percentage:.0f}% {kpis} {compliance_text}</b> للمعايير المحددة. هذا المؤشر الشامل يجمع بين تقييم كفاءة العمالة، ومدى كفاية الميزانية، وواقعية الجدول الزمني، وتقييم المخاطر، والامتثال البيئي. يشير إلى مدى التزام المشروع بالمتطلبات والمعايير الفنية والتشغيلية، مما يعكس جودة التخطيط والتنفيذ الكلي. يساهم هذا التقرير المفصل في تمكين متخذي القرار من فهم أعمق لوضع المشروع واتخاذ الإجراءات التصحيحية اللازمة لضمان نجاحه واستدامته.",
+        "exec_summary_title": "ملخص تنفيذي",
+        "exec_summary": "يوضح التحليل الشامل للمشروع معدل خطر حالي بنسبة <b>{risk_percentage}%</b> مع توقعات بتأخير إجمالي قدره <b>{p_var} يوم</b> بسبب <b>{delay_primary_reason}</b>. تشير التقديرات إلى تجاوز في التكلفة بنسبة <b>{cost_overrun_val}%</b> من الميزانية المخصصة البالغة <b>{sel_budget} ريال سعودي</b>. معدل التضخم المتوقع يبلغ <b>{inflation_rate}%</b> والبصمة الكربونية حوالي <b>{carbon_footprint} طن</b>. يحقق المشروع معدل مطابقة للمتطلبات بنسبة <b>{compliance_percentage:.0f}%</b> على مقياس الكفاءة. يتطلب الوضع الحالي اهتماماً عاجلاً بإدارة سلسلة التوريد وتحسين كفاءة الموارد البشرية."
     },
     "🇬🇧 EN": {
         "dir": "ltr",
@@ -63,13 +86,30 @@ translations = {
         "app_title": "Smart Predictive Model for Project Management",
         "idea_desc_title": "💡 Idea Description",
         "idea_desc": "This project proposes an AI model to analyze past project data and predict potential risks such as delays or cost overruns. It analyzes factors like weather, material availability, labor performance, and supply chains to provide proactive recommendations. It integrates with Primavera or BIM to improve efficiency, reduce time/financial waste, and enhance sustainability.",
-        "sidebar_title": "TARYAQ AI CORE",
+        "sidebar_title": "istabaq",
         "region": "Region",
-        "regions_list": ["Riyadh", "NEOM", "Jeddah", "Eastern", "Asir"],
+        "regions_list": ["Riyadh Sector", "Eastern Province", "NEOM", "Jeddah", "Madinah", "Asir"],
         "scale": "Scale",
-        "scale_list": ["Small", "Medium", "Large", "Mega"],
+        "scale_list": ["Small", "Medium", "Large", "Mega", "Giga", "Infrastructure"],
         "phase": "Phase",
-        "phases_list": ["Feasibility", "Excavation", "Pouring", "Handover"],
+        "phases_list": [
+    "Project Feasibility Study", "Architect & Consultant Selection", "Concept Architectural Design",
+    "Structural, MEP & Civil Drawings", "Building Permit Acquisition", "Contractor Bidding & Selection",
+    "Contract Signing & Bill of Quantities (BOQ)", "Site Handover to Contractor", "Preparation of Shop Drawings",
+    "Site Mobilization & Temporary Facilities", "Site Clearing & Grubbing", "Land Surveying & Setting Out",
+    "Excavation Works", "Anti-Termite Soil Treatment", "Blinding Coذcrete (Lean Concrete)",
+    "Foundation Waterproofing (Batten)", "Foundation Reinforcement & Formwork", "Pouring Foundation Concrete",
+    "Column Neck Reinforcement & Formwork", "Pouring Column Necks", "Bitumen Coating for Underground Structures",
+    "Backfilling & Compaction (Layers)", "Ground Beam (Plinth Beam) Construction", "Under-slab MEP Piping Installation",
+    "Ground Floor Column Reinforcement", "Pouring Ground Floor Columns", "Slab-on-Grade & Upper Slab Formwork",
+    "Slab Reinforcement & Conduit Placement", "Pouring Concrete Slabs", "Masonry Works (Blockwork)",
+    "Electrical Conduit Installation (First Fix)", "Plumbing & Drainage Piping (First Fix)", "HVAC Copper Pipe Routing",
+    "Door & Window Frame Installation", "Internal Plastering Works", "External Rendering (Plastering)",
+    "Firefighting & Gas System Installation", "Roof & Wet Area Waterproofing", "False Ceiling & Gypsum Works",
+    "Thermal Insulation for Facades", "Floor & Wall Tiling Works", "Internal Painting (Primer & Putty)",
+    "Sanitary Ware Installation", "Electrical Switchgear & Panel Installation", "Lighting Fixture Installation",
+    "HVAC Unit Installation (Indoor/Outdoor)", "Joinery (Doors, Windows & Cabinets)", "Final Coat Painting",
+    "Post-Construction Cleaning", "Final Inspection & Project Handover"],
         "labor_eff": "Current Labor Efficiency",
         "update_btn": "🚀 Update Data",
         "current_risk": "Current Risk Rate",
@@ -88,17 +128,39 @@ translations = {
         "rec_supply_desc": "To avoid expected supply shortages in coming weeks",
         "rec_weather": "Adjust working hours",
         "rec_weather_desc": "Based on upcoming climate forecasts for the region",
-        "footer": "Developed by Ahmad M. Al Musallem"
+        "future_features": "Future Features",
+        "future_feature_label": "Future Feature",
+        "import_xer": "Import XER File",
+        "import_data": "Import Excel/CSV Data",
+        "project_budget": "Project Budget (SAR)",
+        "expected_risks": "Expected Risks (Text)",
+        "parameters": "Parameters",
+        "footer": "Developed by (Eastern Team)",
+        "inflation_rate": "Expected Inflation Rate",
+        "carbon_footprint": "Carbon Footprint",
+        "requirements_compliance": "Compliance with Regulations",
+        "inflation_unit": "%",
+        "carbon_unit": "tons CO₂",
+        "compliance_status": "Compliant",
+        "compliance_fail": "Non-Compliant",
+        "report_title": "Detailed Analytical Report",
+        "report_intro": "Based on the entered data and the AI model analysis, the project shows a <b>current risk rate of {risk_percentage}%</b>. This indicator reflects the overall probability of encountering challenges that could negatively impact workflow and is influenced by multiple factors such as labor efficiency, project size, and environmental conditions. Understanding this rate is crucial for taking proactive decisions to mitigate potential risks and ensure project stability.",
+        "report_delay": "Regarding time delays, the system predicts a <b>total delay of {p_var} {days}</b>. <b>{delay_primary_reason}</b> has been identified as the main reason for this delay. The delay analysis includes a precise evaluation of the impact of labor efficiency, weather conditions in the selected region ({sel_region}), project size ({sel_size}), as well as the adequacy of the allocated budget ({sel_budget} SAR), and the complexity of manually entered expected risks. These predictions provide a comprehensive overview of upcoming temporal challenges.",
+        "report_cost_overrun": "As for cost, forecasts indicate a <b>cost overrun of {cost_overrun_val}%</b> of the original budget. This overrun is directly linked to expected delays and factors affecting execution efficiency and resource availability. Controlling costs and avoiding overruns is a primary objective of any successful project, and this prediction provides an early warning to re-evaluate budgets and better allocate resources.",
+        "report_environmental_economic": "Concerning environmental and economic indicators, the <b>expected inflation rate is {inflation_rate}{inflation_unit}</b>. This rate is influenced by the total project duration (based on {sel_days} days) and the geographical region, indicating potential economic impacts on material and labor costs in the long term. Additionally, the project's <b>carbon footprint is estimated at {carbon_footprint} {carbon_unit}</b>. This estimation relies on project size, geographical region, and labor efficiency, highlighting the project's environmental impact, which supports sustainability initiatives and compliance with environmental standards.",
+        "report_compliance": "Finally, the <b>compliance evaluation shows that the project is {compliance_percentage:.0f}% {kpis} {compliance_text}</b> with the specified standards. This comprehensive indicator combines an assessment of labor efficiency, budget adequacy, schedule realism, risk assessment, and environmental compliance. It indicates the extent of the project's adherence to technical and operational requirements, reflecting the overall quality of planning and execution. This detailed report enables decision-makers to gain a deeper understanding of the project's status and take necessary corrective actions to ensure its success and sustainability.",
+        "exec_summary_title": "Executive Summary",
+        "exec_summary": "The comprehensive project analysis reveals a <b>current risk rate of {risk_percentage}%</b> with expectations of a total delay of <b>{p_var} days</b> caused by <b>{delay_primary_reason}</b>. Estimates indicate a cost overrun of <b>{cost_overrun_val}%</b> from the allocated budget of <b>{sel_budget} SAR</b>. The expected inflation rate stands at <b>{inflation_rate}%</b> with carbon footprint approximately <b>{carbon_footprint} tons</b>. The project achieves <b>{compliance_percentage:.0f}%</b> compliance rate on the efficiency scale. The current situation requires immediate attention to supply chain management and improving human resource efficiency."
     }
 }
 
 # --- 2. TOP BAR (Language Selection) ---
-col_title, col_lang = st.columns([9, 1])
-with col_lang:
+top_col1, top_col2, top_col3 = st.columns([8, 1, 1])
+with top_col3:
     lang_choice = st.selectbox("", ["🇸🇦 AR", "🇬🇧 EN"], label_visibility="collapsed")
     t = translations[lang_choice]
-with col_title:
-    st.markdown(f"<h2 style='margin-top:-10px; color:var(--text-color);'>{t['app_title']}</h2>", unsafe_allow_html=True)
+with top_col1:
+    st.markdown(f"<h2 style='margin-top:-10px; margin-bottom:5px; color:var(--text-color); direction:{t['dir']}; text-align:{t['align']};'>Smart Prediction Dashboard</h2>", unsafe_allow_html=True)
 
 # --- 3. DYNAMIC CSS ---
 st.markdown(f"""
@@ -112,52 +174,263 @@ st.markdown(f"""
     div[data-baseweb="select"] {{
         min-width: 80px !important;
         transform: scale(0.85);
-        transform-origin: top right;
+        transform-origin: top { "left" if t['dir'] == "rtl" else "right"};
     }}
     .dash-card {{
-        background-color: var(--secondary-background-color);
-        border-radius: 12px; padding: 20px; border: 1px solid var(--faded-text-10);
+        background: #ffffff;
+        border-radius: 12px; padding: 20px; border: 1px solid rgba(0, 0, 0, 0.05);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
         height: 100%; display: flex; flex-direction: column; justify-content: center;
     }}
-    .metric-value {{ font-size: 28px; font-weight: bold; color: #ef4444; margin-top: 5px; }}
-    .metric-title {{ font-size: 14px; opacity: 0.8; font-weight: 500; }}
+    @media (prefers-color-scheme: dark) {{
+        .dash-card {{
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.7) 100%);
+            border-color: rgba(148, 163, 184, 0.2);
+            box-shadow: none;
+        }}
+    }}
+    .metric-value {{ font-size: 32px; font-weight: 700; color: #ef4444; margin-top: 8px; }}
+    .metric-title {{ font-size: 13px; opacity: 0.75; font-weight: 500; color: rgba(51, 65, 85, 0.85); }}
+    @media (prefers-color-scheme: dark) {{
+        .metric-title {{ color: rgba(226, 232, 240, 0.75); }}
+    }}
+    .metric-label {{ font-size: 13px; opacity: 0.65; font-weight: 400; color: rgba(71, 85, 105, 0.7); margin-top: 3px; }}
+    @media (prefers-color-scheme: dark) {{
+        .metric-label {{ color: rgba(226, 232, 240, 0.6); }}
+    }}
+    .section-title {{ font-size: 14px; opacity: 0.9; font-weight: 600; color: rgba(30, 41, 59, 0.9); margin-bottom: 12px; }}
+    @media (prefers-color-scheme: dark) {{
+        .section-title {{ color: rgba(226, 232, 240, 0.85); }}
+    }}
     .alert-box {{
-        background-color: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.2); 
-        padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;
+        background: #fff5f5; 
+        border: 1px solid rgba(239, 68, 68, 0.1); 
+        padding: 16px; border-radius: 10px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: flex-start;
+        flex-direction: { "row-reverse" if t['dir'] == "rtl" else "row"};
+        gap: 12px;
+    }}
+    @media (prefers-color-scheme: dark) {{
+        .alert-box {{
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(20, 30, 48, 0.8) 100%);
+            border-color: rgba(239, 68, 68, 0.3);
+        }}
+    }}
+    }}
+    .alert-title {{ font-weight: 600; color: #ef4444; font-size: 13px; }}
+    .alert-desc {{ font-size: 11px; margin-top: 4px; opacity: 0.7; color: rgba(71, 85, 105, 0.7); }}
+    @media (prefers-color-scheme: dark) {{
+        .alert-desc {{ color: rgba(226, 232, 240, 0.6); }}
     }}
     .integration-box {{
-        background-color: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.2); 
-        padding: 15px; border-radius: 8px; text-align: center; font-weight: bold; width: 48%;
+        background: #f8fafc;
+        border: 1px solid rgba(59, 130, 246, 0.1); 
+        padding: 20px; border-radius: 10px; text-align: center; font-weight: 600; width: 48%;
+        color: rgba(30, 41, 59, 0.95);
+    }}
+    @media (prefers-color-scheme: dark) {{
+        .integration-box {{
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.8) 100%);
+            color: rgba(226, 232, 240, 0.9);
+        }}
+    }}
+    .future-box {{
+        background: #fafafa;
+        border: 1px dashed rgba(148, 163, 184, 0.3);
+        padding: 15px; border-radius: 10px; text-align: center; height: 100%;
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+        transition: all 0.3s ease;
+    }}
+    .future-label {{
+        font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
+        background: rgba(148, 163, 184, 0.2); padding: 2px 8px; border-radius: 4px;
+        margin-bottom: 8px; opacity: 0.8;
     }}
     </style>
     """, unsafe_allow_html=True)
 
 # --- 4. SIDEBAR & LOGIC ---
 with st.sidebar:
-    st.image("https://cdn-icons-png.flaticon.com/512/3252/3252119.png", width=50)
-    st.markdown(f"### {t['sidebar_title']}")
+    st.image("logo.png", width=80, use_column_width=True) 
+    st.markdown(f"### {t['parameters']}", unsafe_allow_html=True)
     
+    # Mandatory inputs with selection dropdown
     sel_region = st.selectbox(t["region"], t["regions_list"])
     sel_size = st.selectbox(t["scale"], t["scale_list"])
     sel_phase = st.selectbox(t["phase"], t["phases_list"])
+    
     sel_days = st.number_input(t["days"], min_value=1, value=30)
-    sel_labor = st.slider(t["labor_eff"], 0.1, 1.0, 0.85)
+    sel_budget = st.number_input(t["project_budget"], min_value=0, value=1000000, step=100000)
+    
+    # Optional input (risks)
+    sel_expected_risks = st.text_area(t["expected_risks"], placeholder=t["expected_risks"], height=150)
+    
+    # Labor efficiency as number input instead of slider
+    sel_labor = st.number_input(t["labor_eff"], min_value=0.1, max_value=1.0, value=0.85, step=0.05)
     
     st.button(t["update_btn"], use_container_width=True)
+    
+    # Import Features Section
+    st.divider()
+    st.markdown(f"<div style='text-align:{t['align']}; direction:{t['dir']};'><h4 style='margin-top:10px; margin-bottom:10px;'>🚀 {t['future_features']}</h4></div>", unsafe_allow_html=True)
+    
+    # Two Import Options with File Upload Buttons
+    imp_col1, imp_col2 = st.columns(2)
+    
+    with imp_col1:
+        st.markdown(f"""
+            <div style="position:relative; opacity:0.6;">
+                <div style="font-weight:600; font-size:12px; color:rgba(30, 41, 59, 0.6); text-align:center; margin-bottom:8px;">
+                    <span style="opacity:0.5; font-size:10px;">مستقبلا</span><br>
+                    📄 {t['import_xer']}
+                </div>
+        """, unsafe_allow_html=True)
+        st.file_uploader("", type=["xer"], key="xer_upload", disabled=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+    
+    with imp_col2:
+        st.markdown(f"""
+            <div style="position:relative; opacity:0.6;">
+                <div style="font-weight:600; font-size:12px; color:rgba(30, 41, 59, 0.6); text-align:center; margin-bottom:8px;">
+                    <span style="opacity:0.5; font-size:10px;">مستقبلا</span><br>
+                    📊 {t['import_data']}
+                </div>
+        """, unsafe_allow_html=True)
+        st.file_uploader("", type=["xlsx", "csv"], key="csv_upload", disabled=True)
+        st.markdown("</div>", unsafe_allow_html=True)
 
-# AI Calculation Logic
+# AI Calculation Logic - Enhanced with All Parameters
+delay_reasons = {}
+
+# 1. Labor Efficiency Impact (40% base factor)
 base_delay = (1.0 - sel_labor) * (sel_days * 0.4)
-weather_delay = sel_days * 0.15 if sel_region in ["قطاع الرياض", "نيوم", "Riyadh", "NEOM"] else 0
-p_var = round(base_delay + weather_delay, 1)
+delay_reasons['labor'] = base_delay
+
+# 2. Weather Impact (15% for hot regions like Riyadh/NEOM, 5% for others)
+weather_delay = sel_days * 0.15 if sel_region in ["قطاع الرياض", "نيوم", "Riyadh", "NEOM"] else sel_days * 0.05
+delay_reasons['weather'] = weather_delay
+
+# 3. Project Scale Impact (Small: 0.7x, Medium: 1.0x, Large: 1.3x, Mega: 1.6x)
+size_factors = {"صغير": 0.7, "متوسط": 1.0, "كبير": 1.3, "ضخم": 1.6,
+                "Small": 0.7, "Medium": 1.0, "Large": 1.3, "Mega": 1.6}
+size_factor = size_factors.get(sel_size, 1.0)
+size_delay = sel_days * 0.06 * (size_factor - 0.7)
+delay_reasons['scale'] = size_delay
+
+# 4. Budget Adequacy Impact (high budget = less delay)
+budget_per_day = sel_budget / sel_days if sel_days > 0 else 0
+if budget_per_day > 50000:
+    budget_impact = 0.0
+elif budget_per_day > 20000:
+    budget_impact = 0.04
+else:
+    budget_impact = 0.10
+budget_delay = sel_days * budget_impact
+delay_reasons['budget'] = budget_delay
+
+# 5. Risk Complexity Impact (based on expected risks description length)
+risk_words = len(sel_expected_risks.split()) if sel_expected_risks else 0
+risk_complexity = min(0.15, (risk_words / 100) * 0.15)
+risk_delay = sel_days * risk_complexity
+delay_reasons['risks'] = risk_delay
+
+# Total Expected Delay
+total_delay = base_delay + weather_delay + size_delay + budget_delay + risk_delay
+p_var = round(total_delay, 1)
+
+# Determine Primary Reason (max contributing factor)
+primary_reason_key = max(delay_reasons, key=delay_reasons.get)
+reason_map = {
+    "labor": "كفاءة العمالة منخفضة" if lang_choice == "🇸🇦 AR" else "Low labor efficiency",
+    "weather": "تأثر بالعوامل المناخية" if lang_choice == "🇸🇦 AR" else "Weather impact high",
+    "scale": "حجم المشروع كبير" if lang_choice == "🇸🇦 AR" else "Large project scale",
+    "budget": "الميزانية غير كافية" if lang_choice == "🇸🇦 AR" else "Budget constraints",
+    "risks": "تعقيدات مخاطر عالية" if lang_choice == "🇸🇦 AR" else "High risk complexity"
+}
+delay_primary_reason = reason_map.get(primary_reason_key, "عوامل متعددة" if lang_choice == "🇸🇦 AR" else "Multiple factors")
 
 risk_percentage = min(int((p_var / sel_days) * 100) + 15, 95)
 cost_overrun_val = min(int((p_var / sel_days) * 35), 100)
 
-# --- 5. IDEA DESCRIPTION ---
-with st.expander(t["idea_desc_title"], expanded=True):
-    st.info(t["idea_desc"])
+# --- NEW INDICATORS ---
+# 1. INFLATION RATE CALCULATION
+# Base rate for Saudi Arabia (3-4% annual)
+base_inflation = 3.5
+# Adjustment based on project duration and budget constraints
+if sel_days > 365:
+    inflation_rate = base_inflation + (sel_days / 365 - 1) * 0.8  # +0.8% per additional year
+else:
+    inflation_rate = base_inflation * (sel_days / 365)
 
-# --- 6. PLOTLY HELPERS ---
+# Adjustment based on region (hot regions have higher inflation impact)
+if sel_region in ["قطاع الرياض", "نيوم", "Riyadh", "NEOM"]:
+    inflation_rate *= 1.15
+
+inflation_rate = round(max(0.5, min(inflation_rate, 8.0)), 2)
+
+# 2. CARBON FOOTPRINT CALCULATION
+# Base emissions by project scale (in tons CO2)
+carbon_base = {
+    "صغير": 50, "متوسط": 150, "كبير": 400, "ضخم": 800,
+    "Small": 50, "Medium": 150, "Large": 400, "Mega": 800
+}
+carbon_emissions = carbon_base.get(sel_size, 100)
+
+# Regional adjustment (hot regions require more cooling = more emissions)
+if sel_region in ["قطاع الرياض", "نيوم", "Riyadh", "NEOM"]:
+    carbon_emissions *= 1.3
+elif sel_region in ["جدة", "Jeddah"]:
+    carbon_emissions *= 1.1
+
+# Duration adjustment (longer projects = more emissions)
+carbon_emissions *= (sel_days / 180)
+
+# Labor efficiency adjustment (better efficiency = lower emissions)
+carbon_emissions *= (1.1 - sel_labor * 0.1)
+
+carbon_footprint = round(carbon_emissions, 1)
+
+# 3. REQUIREMENTS COMPLIANCE ASSESSMENT
+# Scoring system based on project parameters
+compliance_score = 0
+max_compliance_score = 10
+
+# Check different compliance criteria
+# 1. Labor Efficiency (max 2 points)
+if sel_labor > 0.85:
+    compliance_score += 2
+elif sel_labor > 0.70:
+    compliance_score += 1
+
+# 2. Budget Adequacy (max 2 points)
+budget_per_day = sel_budget / sel_days if sel_days > 0 else 0
+if budget_per_day > 50000:
+    compliance_score += 2
+elif budget_per_day > 20000:
+    compliance_score += 1
+
+# 3. Project Duration Realism (max 2 points)
+if sel_days <= 365:
+    compliance_score += 2
+elif sel_days <= 730:
+    compliance_score += 1
+
+# 4. Risk Assessment (max 2 points)
+if risk_percentage < 30:
+    compliance_score += 2
+elif risk_percentage < 60:
+    compliance_score += 1
+
+# 5. Environmental Compliance (max 2 points)
+if carbon_footprint < 100:
+    compliance_score += 2
+elif carbon_footprint < 300:
+    compliance_score += 1
+
+# Determine overall compliance status
+compliance_percentage = (compliance_score / max_compliance_score) * 100
+is_compliant = compliance_percentage >= 60  # 60% or higher = compliant
+
+# --- 5. PLOTLY HELPERS ---
 def create_gauge(val):
     fig = go.Figure(go.Indicator(
         mode="gauge+number", value=val,
@@ -174,36 +447,110 @@ def create_sparkline(color, volatility=1.0):
     data = data.cumsum()
     fig = px.line(y=data)
     fig.update_traces(line_color=color, line_width=3)
-    fig.update_layout(height=60, margin=dict(l=0, r=0, t=0, b=0), xaxis_visible=False, yaxis_visible=False, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", showlegend=False)
-    return fig
+    fig.update_layout(height=80, margin=dict(l=0, r=0, t=10, b=10), xaxis_visible=False, yaxis_visible=False, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", showlegend=False)
+    return fig, data
 
 # --- 7. MAIN DASHBOARD ---
-# Row 1: Metrics, Map, KPI
-c1, c2, c3 = st.columns([1, 2, 1])
+# Executive Summary
+st.markdown(f"""
+<div class="dash-card" style="padding:15px; margin-bottom:15px; background: linear-gradient(135deg, #f0f4ff 0%, #fffbf0 100%); border-left: 4px solid #3b82f6;">
+    <div style="font-weight: 600; margin-bottom: 10px; font-size: 16px;">📋 {t.get('exec_summary', 'ملخص تنفيذي | Executive Summary')}</div>
+    <p style="margin: 0; line-height: 1.6; font-size: 13px; color: #333;">
+        يوضح التحليل الشامل للمشروع معدل خطر حالي بنسبة <b>{risk_percentage}%</b> مع توقعات بتأخير إجمالي قدره <b>{p_var} يوم</b> بسبب <b>{delay_primary_reason}</b>.
+        تشير التقديرات إلى تجاوز في التكلفة بنسبة <b>{cost_overrun_val}%</b> من الميزانية المخصصة البالغة 
+        <b>{sel_budget} ريال سعودي</b>. معدل التضخم المتوقع يبلغ <b>{inflation_rate}%</b> والبصمة الكربونية حوالي <b>{carbon_footprint} طن</b>.
+        يحقق المشروع معدل مطابقة للمتطلبات بنسبة <b>{compliance_percentage:.0f}%</b> على مقياس الكفاءة الشامل.
+        يتطلب الوضع الحالي اهتماماً عاجلاً بإدارة سلسلة التوريد وتحسين كفاءة الموارد البشرية.
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
-with c1:
+# Row 1: KPIs (5 main metrics)
+st.markdown("<h3 style='margin: 15px 0 10px 0;'>Key Metrics</h3>", unsafe_allow_html=True)
+kpi1, kpi2, kpi3, kpi4, kpi5 = st.columns(5)
+
+with kpi1:
     st.markdown(f"""
-    <div class="dash-card">
-        <div>
-            <div class="metric-title">{t['current_risk']}</div>
-            <div class="metric-value">%{risk_percentage}</div>
-        </div>
-        <hr style="border-color:var(--faded-text-10); margin: 15px 0;">
-        <div>
-            <div class="metric-title">{t['expected_delay']}</div>
-            <div class="metric-value">{p_var} {t['days']}</div>
-        </div>
-        <hr style="border-color:var(--faded-text-10); margin: 15px 0;">
-        <div>
-            <div class="metric-title">{t['cost_overrun']}</div>
-            <div class="metric-value">%{cost_overrun_val}</div>
-        </div>
+    <div class="dash-card" style="direction:{t['dir']}; text-align:{t['align']}; background: #e8f5e9; border: 1px solid #c8e6c9;">
+        <div class="metric-title">⚠️ {t['current_risk']}</div>
+        <div class="metric-value" style="color: #2e7d32;">%{risk_percentage}</div>
+        <div class="metric-label" style="font-size:11px;">{risk_percentage}%</div>
     </div>
     """, unsafe_allow_html=True)
 
-with c2:
+with kpi2:
+    st.markdown(f"""
+    <div class="dash-card" style="direction:{t['dir']}; text-align:{t['align']}; background: #e8f5e9; border: 1px solid #c8e6c9;">
+        <div class="metric-title">⏱️ {t['expected_delay']}</div>
+        <div class="metric-value" style="color: #2e7d32; font-size:28px;">{p_var}d</div>
+        <div class="metric-label">{p_var} {t['days']}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with kpi3:
+    st.markdown(f"""
+    <div class="dash-card" style="direction:{t['dir']}; text-align:{t['align']}; background: #e8f5e9; border: 1px solid #c8e6c9;">
+        <div class="metric-title">💰 {t['cost_overrun']}</div>
+        <div class="metric-value" style="color: #2e7d32;">%{cost_overrun_val}</div>
+        <div class="metric-label">{cost_overrun_val}%</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with kpi4:
+    st.markdown(f"""
+    <div class="dash-card" style="direction:{t['dir']}; text-align:{t['align']}; background: #e8f5e9; border: 1px solid #c8e6c9;">
+        <div class="metric-title">👷 {t['labor_eff']}</div>
+        <div class="metric-value" style="color: #2e7d32;">{sel_labor:.2f}</div>
+        <div class="metric-label">{(sel_labor*100):.1f}%</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with kpi5:
+    st.markdown(f"""
+    <div class="dash-card" style="direction:{t['dir']}; text-align:{t['align']};">
+        <div class="metric-title">📊 {t['kpis']}</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.plotly_chart(create_gauge(risk_percentage), use_container_width=True, config={'displayModeBar': False})
+
+# Row 2: Sparklines
+st.markdown("<div style='margin-top:10px;'></div>", unsafe_allow_html=True)
+sp1, sp2, sp3, sp4 = st.columns(4)
+
+fig_weather, data_weather = create_sparkline("#3b82f6", 1.5)
+with sp1:
+    st.markdown(f"<div class='dash-card' style='padding:10px;'>", unsafe_allow_html=True)
+    st.markdown(f"<div class='section-title' style='margin-bottom:5px;'>🚛 {t['supply_chain']}</div>", unsafe_allow_html=True)
+    st.plotly_chart(fig_weather, use_container_width=True, config={'displayModeBar': False})
+    st.markdown("</div>", unsafe_allow_html=True)
+
+fig_materials, data_materials = create_sparkline("#10b981", 0.5)
+with sp2:
+    st.markdown(f"<div class='dash-card' style='padding:10px;'>", unsafe_allow_html=True)
+    st.markdown(f"<div class='section-title' style='margin-bottom:5px;'>👷 {t['labor']}</div>", unsafe_allow_html=True)
+    st.plotly_chart(fig_materials, use_container_width=True, config={'displayModeBar': False})
+    st.markdown("</div>", unsafe_allow_html=True)
+
+fig_labor, data_labor = create_sparkline("#eab308", 0.8)
+with sp3:
+    st.markdown(f"<div class='dash-card' style='padding:10px;'>", unsafe_allow_html=True)
+    st.markdown(f"<div class='section-title' style='margin-bottom:5px;'>🔨 {t['materials']}</div>", unsafe_allow_html=True)
+    st.plotly_chart(fig_labor, use_container_width=True, config={'displayModeBar': False})
+    st.markdown("</div>", unsafe_allow_html=True)
+
+fig_supply, data_supply = create_sparkline("#8b5cf6", 2.0)
+with sp4:
+    st.markdown(f"<div class='dash-card' style='padding:10px;'>", unsafe_allow_html=True)
+    st.markdown(f"<div class='section-title' style='margin-bottom:5px;'>☁️ {t['weather']}</div>", unsafe_allow_html=True)
+    st.plotly_chart(fig_supply, use_container_width=True, config={'displayModeBar': False})
+    st.markdown("</div>", unsafe_allow_html=True)
+
+# Row 3: Map, Compliance, Integration
+st.markdown("<div style='margin-top:10px;'></div>", unsafe_allow_html=True)
+map_col, info_col = st.columns([2, 1])
+
+with map_col:
     r_data = region_data.get(sel_region, {"lat": 24.7136, "lon": 46.6753, "zoom": 10})
-    # محاكاة مناطق حمراء وصفراء في الخريطة بناءً على الخطورة
     df_map = pd.DataFrame({
         'lat': [r_data['lat'], r_data['lat'] + 0.02, r_data['lat'] - 0.01], 
         'lon': [r_data['lon'], r_data['lon'] + 0.03, r_data['lon'] - 0.02], 
@@ -212,81 +559,133 @@ with c2:
     })
     fig_map = px.scatter_mapbox(df_map, lat="lat", lon="lon", size="size", color="color", 
                                 color_discrete_map={"red":"#ef4444", "orange":"#eab308"},
-                                zoom=r_data['zoom'], mapbox_style="carto-darkmatter")
-    fig_map.update_layout(margin=dict(l=0, r=0, t=0, b=0), height=310, paper_bgcolor="rgba(0,0,0,0)", showlegend=False)
+                                zoom=r_data['zoom'], mapbox_style="open-street-map")
+    fig_map.update_layout(margin=dict(l=0, r=0, t=0, b=0), height=250, paper_bgcolor="rgba(0,0,0,0)", showlegend=False)
     
-    st.markdown('<div class="dash-card" style="padding:10px;">', unsafe_allow_html=True)
-    st.markdown(f"<div style='margin-bottom:10px; padding:0 10px; font-weight:bold;'>{t['map_title']} - {sel_region}</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='dash-card' style='padding:10px;'>", unsafe_allow_html=True)
+    st.markdown(f"<div class='section-title'>🗺️ {t['map_title']}</div>", unsafe_allow_html=True)
     st.plotly_chart(fig_map, use_container_width=True, config={'displayModeBar': False})
     st.markdown('</div>', unsafe_allow_html=True)
 
-with c3:
-    st.markdown('<div class="dash-card">', unsafe_allow_html=True)
-    st.markdown(f"<div style='font-weight:bold; margin-bottom:5px;'>{t['kpis']}</div>", unsafe_allow_html=True)
-    st.plotly_chart(create_gauge(risk_percentage), use_container_width=True, config={'displayModeBar': False})
+with info_col:
+    # Compliance
+    compliance_color = "#10b981" if is_compliant else "#ef4444"
+    compliance_text = t['compliance_status'] if is_compliant else t['compliance_fail']
     st.markdown(f"""
-        <div style="text-align:center; margin-top:-10px;">
-            <div style="color:#eab308; font-size:24px; font-weight:bold;">%{cost_overrun_val}</div>
-            <div class="metric-title">{t['cost_overrun']}</div>
-        </div>
+    <div class="dash-card" style="padding:10px; margin-bottom:10px;">
+        <div class="metric-title">📋 {t['requirements_compliance']}</div>
+        <div class="metric-value" style="color:{compliance_color}; font-size:20px;">{compliance_percentage:.0f}%</div>
+        <div class="metric-label">{compliance_text}</div>
+    </div>
     """, unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
 
-# Row 2: Sparklines
-st.markdown("<div style='margin-top:15px;'></div>", unsafe_allow_html=True)
-sc1, sc2, sc3, sc4 = st.columns(4)
-with sc1:
-    st.markdown(f"<div class='dash-card' style='padding:15px;'><div class='metric-title'>{t['weather']}</div>", unsafe_allow_html=True)
-    st.plotly_chart(create_sparkline("#3b82f6", 1.5), use_container_width=True, config={'displayModeBar': False})
-    st.markdown("</div>", unsafe_allow_html=True)
-with sc2:
-    st.markdown(f"<div class='dash-card' style='padding:15px;'><div class='metric-title'>{t['materials']}</div>", unsafe_allow_html=True)
-    st.plotly_chart(create_sparkline("#10b981", 0.5), use_container_width=True, config={'displayModeBar': False})
-    st.markdown("</div>", unsafe_allow_html=True)
-with sc3:
-    st.markdown(f"<div class='dash-card' style='padding:15px;'><div class='metric-title'>{t['labor']}</div>", unsafe_allow_html=True)
-    st.plotly_chart(create_sparkline("#eab308", 0.8), use_container_width=True, config={'displayModeBar': False})
-    st.markdown("</div>", unsafe_allow_html=True)
-with sc4:
-    st.markdown(f"<div class='dash-card' style='padding:15px;'><div class='metric-title'>{t['supply_chain']}</div>", unsafe_allow_html=True)
-    st.plotly_chart(create_sparkline("#8b5cf6", 2.0), use_container_width=True, config={'displayModeBar': False})
-    st.markdown("</div>", unsafe_allow_html=True)
+# Row 4: Recommendations
+st.markdown("<div style='margin-top:10px;'></div>", unsafe_allow_html=True)
+st.markdown(f"<h3 style='margin: 10px 0;'>🚨 {t['recommendations']}</h3>", unsafe_allow_html=True)
+rec_col1, rec_col2 = st.columns(2)
 
-# Row 3: Integrations & Recommendations
-st.markdown("<div style='margin-top:15px;'></div>", unsafe_allow_html=True)
-r1, r2 = st.columns([1, 2.05])
-
-with r1:
-    st.markdown(f"<div class='dash-card'><div class='metric-title' style='margin-bottom:15px;'>{t['integration']}</div>", unsafe_allow_html=True)
-    st.markdown("""
-        <div style="display:flex; justify-content:space-between;">
-            <div class="integration-box"><span style="color:#ef4444; font-size:20px;">P6</span><br><small>Primavera</small></div>
-            <div class="integration-box"><span style="color:#3b82f6; font-size:20px;">BIM</span><br><small>Model</small></div>
-        </div>
-    """, unsafe_allow_html=True)
-    st.markdown("</div>", unsafe_allow_html=True)
-
-with r2:
-    st.markdown(f"<div class='dash-card'><div class='metric-title' style='margin-bottom:15px;'>{t['recommendations']}</div>", unsafe_allow_html=True)
+with rec_col1:
     st.markdown(f"""
-        <div style="display:flex; gap:15px;">
-            <div class="alert-box" style="flex:1;">
-                <div>
-                    <div style="font-weight:bold; color:#ef4444;">{t['rec_supply']}</div>
-                    <div style="font-size:12px; margin-top:4px; opacity:0.8;">{t['rec_supply_desc']}</div>
-                </div>
-                <div>⚠️</div>
-            </div>
-            <div class="alert-box" style="flex:1;">
-                <div>
-                    <div style="font-weight:bold; color:#ef4444;">{t['rec_weather']}</div>
-                    <div style="font-size:12px; margin-top:4px; opacity:0.8;">{t['rec_weather_desc']}</div>
-                </div>
-                <div>⚠️</div>
-            </div>
-        </div>
+    <div class="dash-card" style="padding:12px; background: #fff3cd; border: 1px solid #ffc107;">
+        <div style="font-weight:600; color: #856404; margin-bottom:8px;">{t['rec_supply']}</div>
+        <div style="font-size:12px; color: #856404;">{t['rec_supply_desc']}</div>
+    </div>
     """, unsafe_allow_html=True)
-    st.markdown("</div>", unsafe_allow_html=True)
+
+with rec_col2:
+    st.markdown(f"""
+    <div class="dash-card" style="padding:12px; background: #fff3cd; border: 1px solid #ffc107;">
+        <div style="font-weight:600; color: #856404; margin-bottom:8px;">{t['rec_weather']}</div>
+        <div style="font-size:12px; color: #856404;">{t['rec_weather_desc']}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+# Row 5: Detailed Report
+st.markdown("<h3 style='margin: 15px 0 10px 0;'>📊 تقرير مفصل | Detailed Report</h3>", unsafe_allow_html=True)
+st.markdown(f"""
+<div class="dash-card" style="padding:15px;">
+    <p>
+        بناءً على المعطيات المدخلة وتحليل نموذج الذكاء الاصطناعي، يظهر المشروع <b>معدل خطر حالي يبلغ {risk_percentage}%</b>. هذا المؤشر يعكس الاحتمالية الكلية لحدوث تحديات قد تؤثر سلباً على سير العمل، ويتأثر بعوامل متعددة مثل كفاءة العمالة، حجم المشروع، والظروف البيئية. يعد فهم هذا المعدل حيويًا لاتخاذ قرارات استباقية للتخفيف من المخاطر المحتملة وضمان استقرار المشروع.
+    </p>
+    <p>
+        فيما يخص التأخير الزمني، يتوقع النظام <b>تأخيرًا إجماليًا قدره {p_var} {t['days']}</b>. وقد تم تحديد <b>{delay_primary_reason}</b> كسبب رئيسي لهذا التأخير. يشمل تحليل التأخير تقييمًا دقيقًا لتأثير كفاءة العمالة، والظروف الجوية في المنطقة المختارة ({sel_region})، وحجم المشروع ({sel_size})، بالإضافة إلى مدى كفاية الميزانية المخصصة ({sel_budget} ريال سعودي)، وتعقيد المخاطر المتوقعة المدخلة يدويًا. هذه التنبؤات توفر نظرة شاملة للتحديات الزمنية القادمة.
+    </p>
+    <p>
+        أما بالنسبة للتكلفة، فالتوقعات تشير إلى <b>تجاوز في التكلفة بنسبة {cost_overrun_val}%</b> من الميزانية الأصلية. يرتبط هذا التجاوز بشكل مباشر بالتأخيرات المتوقعة والعوامل التي تؤثر على كفاءة التنفيذ وتوفر الموارد. يعتبر التحكم في التكلفة وتجنب تجاوزاتها أحد الأهداف الأساسية لأي مشروع ناجح، ويقدم هذا التنبؤ تحذيرًا مبكرًا لإعادة تقييم الميزانيات وتخصيص الموارد بشكل أفضل.
+    </p>
+    <p>
+        بخصوص المؤشرات البيئية والاقتصادية، يبلغ <b>معدل التضخم المتوقع {inflation_rate}{t['inflation_unit']}</b>. يتأثر هذا المعدل بمدة المشروع الكلية (على أساس {sel_days} يومًا) والمنطقة الجغرافية، مما يشير إلى التأثيرات الاقتصادية المحتملة على تكاليف المواد والعمالة على المدى الطويل. بالإضافة إلى ذلك، تم تقدير <b>البصمة الكربونية للمشروع بحوالي {carbon_footprint} {t['carbon_unit']}</b>. هذا التقدير يعتمد على حجم المشروع والمنطقة الجغرافية وكفاءة العمالة، ويسلط الضوء على الأثر البيئي للمشروع، مما يدعم مبادرات الاستدامة والامتثال للمعايير البيئية.
+    </p>
+    <p>
+        وأخيرًا، يوضح تقييم <b>مطابقة الاشتراطات أن المشروع {compliance_percentage:.0f}% {t['kpis']} {t['compliance_status'] if is_compliant else t['compliance_fail']}</b> للمعايير المحددة. هذا المؤشر الشامل يجمع بين تقييم كفاءة العمالة، ومدى كفاية الميزانية، وواقعية الجدول الزمني، وتقييم المخاطر، والامتثال البيئي. يشير إلى مدى التزام المشروع بالمتطلبات والمعايير الفنية والتشغيلية، مما يعكس جودة التخطيط والتنفيذ الكلي. يساهم هذا التقرير المفصل في تمكين متخذي القرار من فهم أعمق لوضع المشروع واتخاذ الإجراءات التصحيحية اللازمة لضمان نجاحه واستدامته.
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
+# Row 4: Future Features (Removed - using import features in sidebar instead)
 
 # Footer
-st.markdown(f"<div style='text-align:center; padding:20px; opacity:0.6; font-size:12px;'>{t['footer']}</div>", unsafe_allow_html=True)
+st.markdown(f"""
+    <div style="margin-top: 20px; padding: 15px; text-align: center; border-top: 1px solid rgba(148, 163, 184, 0.1);">
+        <p style="opacity: 0.6; font-size: 12px; margin: 0;">{t['footer']} | 2026</p>
+    </div>
+""", unsafe_allow_html=True)
+
+
+import base64
+
+# دالة لقراءة الصورة وتحويلها لتتناسب مع الـ HTML
+def get_base64_of_bin_file(bin_file):
+    try:
+        with open(bin_file, 'rb') as f:
+            data = f.read()
+        return base64.b64encode(data).decode()
+    except FileNotFoundError:
+        return "" # في حال لم يجد الصورة لا يعطي خطأ
+
+# استدعاء اللوقو (تأكد أن اسم الصورة مطابق لاسم الملف لديك)
+logo_base64 = get_base64_of_bin_file("logo.png")
+logo_html = f'<div style="text-align: center; margin-bottom: 15px; max-width: 100%; overflow: hidden;"><img src="data:image/png;base64,{logo_base64}" style="width: 180px; height: auto; object-fit: contain; max-width: 100%; display: block; margin: 0 auto;"></div>' if logo_base64 else ''
+
+
+# AI-Generated Summary Report
+report_intro = t['report_intro'].format(risk_percentage=risk_percentage)
+
+report_delay = t['report_delay'].format(
+    p_var=p_var,
+    t=t,
+    delay_primary_reason=delay_primary_reason,
+    sel_region=sel_region,
+    sel_size=sel_size,
+    sel_budget=sel_budget
+)
+
+report_cost_overrun = t['report_cost_overrun'].format(cost_overrun_val=cost_overrun_val)
+
+report_environmental_economic = t['report_environmental_economic'].format(
+    inflation_rate=inflation_rate,
+    t=t,
+    sel_days=sel_days,
+    carbon_footprint=carbon_footprint
+)
+
+report_compliance = t['report_compliance'].format(
+    compliance_percentage=compliance_percentage,
+    t=t,
+    is_compliant=is_compliant
+)
+
+# عرض التقرير مع اللوقو
+st.markdown(f"""
+    <div style="margin-top: 20px; padding: 20px; background: white; border-radius: 18px; border: 1px solid #f0f0f0; direction:{t['dir']}; text-align:{t['align']}; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+        
+        {logo_html}
+        
+        <h3 style="margin-bottom: 10px; margin-top: 0; color:#1e293b; border-bottom: 2px solid #f0f0f0; padding-bottom: 8px;">{t['report_title']}</h3>
+        <p style="color:#475569; line-height:1.8;">{report_intro}</p>
+        <p style="color:#475569; line-height:1.8;">{report_delay}</p>
+        <p style="color:#475569; line-height:1.8;">{report_cost_overrun}</p>
+        <p style="color:#475569; line-height:1.8;">{report_environmental_economic}</p>
+        <p style="color:#475569; line-height:1.8;">{report_compliance}</p>
+    </div>
+""", unsafe_allow_html=True)
