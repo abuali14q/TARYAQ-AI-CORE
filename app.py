@@ -11,10 +11,10 @@ st.set_page_config(page_title="TARYAQ | AI Prediction", page_icon="🏗️", lay
 
 # --- TRANSLATIONS DICTIONARY ---
 translations = {
-    "العربية": {
+    "🇸🇦 العربية": {
         "dir": "rtl",
         "align": "right",
-        "app_title": "🏢 نموذج تنبؤي ذكي لإدارة المشاريع وتقليل التأخيرات",
+        "app_title": "🏢 منصة تنبؤ بمخاطر مشاريع البناء (ذكاء اصطناعي)",
         "sidebar_title": "TARYAQ AI CORE",
         "region": "المنطقة",
         "scale": "حجم المشروع",
@@ -43,7 +43,7 @@ translations = {
         "rec_weather_ok": "تحديث سجل المخاطر الأسبوعي",
         "footer": "طور بواسطة أحمد محمد المسلم وجميع الحقوق محفوظة له"
     },
-    "English": {
+    "🇬🇧 English": {
         "dir": "ltr",
         "align": "left",
         "app_title": "🏢 Construction Project Risk Prediction (AI)",
@@ -79,8 +79,8 @@ translations = {
 
 # --- 2. SIDEBAR & LANGUAGE SELECTION ---
 with st.sidebar:
-    # Language Toggle
-    lang_choice = st.radio("🌐 Language / اللغة", ["العربية", "English"], horizontal=True)
+    # Language Dropdown with Flags
+    lang_choice = st.selectbox("🌐 اختر اللغة / Select Language", ["🇸🇦 العربية", "🇬🇧 English"])
     t = translations[lang_choice] # Load selected dictionary
     
     st.image("https://cdn-icons-png.flaticon.com/512/3252/3252119.png", width=70)
