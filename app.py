@@ -80,7 +80,7 @@ translations = {
 # --- 2. SIDEBAR & LANGUAGE SELECTION ---
 with st.sidebar:
     # Language Dropdown with Flags
-    lang_choice = st.selectbox("🌐 اختر اللغة / Select Language", ["🇸🇦 العربية", "🇬🇧 English"])
+    lang_choice = st.selectbox("", ["🇸🇦 العربية", "🇬🇧 English"])
     t = translations[lang_choice] # Load selected dictionary
     
     st.image("https://cdn-icons-png.flaticon.com/512/3252/3252119.png", width=70)
