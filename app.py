@@ -4,13 +4,11 @@ import numpy as np
 from datetime import datetime
 import plotly.graph_objects as go
 import plotly.express as px
-import time
+from ai_analysis import AIProjectAnalyzer
 
 # --- Initialize Session State ---
 if 'show_dashboard' not in st.session_state:
-    st.session_state.show_dashboard = False
-if 'loading' not in st.session_state:
-    st.session_state.loading = False
+    st.session_state.show_dashboard = True
 
 # --- 1. SETTINGS ---
 st.set_page_config(page_title="TARYAQ | AI Prediction", page_icon="🏗️", layout="wide")
@@ -63,6 +61,10 @@ translations = {
         "rec_supply_desc": "لتفادي نقص التوريد المتوقع في الأسابيع القادمة",
         "rec_weather": "تعديل أوقات العمل لتفادي الإجهاد",
         "rec_weather_desc": "بناءً على التنبؤات المناخية القادمة للمنطقة",
+        "temp": "درجة الحرارة",
+        "humidity": "الرطوبة",
+        "condition": "الحالة",
+        "wind": "سرعة الرياح",
         "future_features": "المميزات المستقبلية",
         "future_feature_label": "ميزة مستقبلية",
         "import_xer": "استيراد ملف XER",
@@ -139,6 +141,10 @@ translations = {
         "rec_supply_desc": "To avoid expected supply shortages in coming weeks",
         "rec_weather": "Adjust working hours",
         "rec_weather_desc": "Based on upcoming climate forecasts for the region",
+        "temp": "Temperature",
+        "humidity": "Humidity",
+        "condition": "Condition",
+        "wind": "Wind Speed",
         "future_features": "Future Features",
         "future_feature_label": "Future Feature",
         "import_xer": "Import XER File",
@@ -283,16 +289,8 @@ with st.sidebar:
     # Labor efficiency as number input instead of slider
     sel_labor = st.number_input(t["labor_eff"], min_value=0.1, max_value=1.0, value=0.85, step=0.05)
     
-    if st.button(t["update_btn"], use_container_width=True):
-        st.session_state.show_dashboard = True
-        st.session_state.loading = True
-        st.rerun()
-    
-    # Check if we need to disable loading after 4 seconds
-    if st.session_state.show_dashboard and st.session_state.loading:
-        time.sleep(4)
-        st.session_state.loading = False
-        st.rerun()
+    # Dashboard is now shown automatically and updates with each change
+    st.session_state.show_dashboard = True
     
     # Import Features Section
     st.divider()
@@ -323,96 +321,78 @@ with st.sidebar:
         st.file_uploader("", type=["xlsx", "csv"], key="csv_upload", disabled=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
-# AI Calculation Logic - Enhanced with All Parameters
-delay_reasons = {}
+# --- ADVANCED AI ANALYSIS ENGINE ---
+ai_analyzer = AIProjectAnalyzer()
 
-# 1. Labor Efficiency Impact (40% base factor)
-base_delay = (1.0 - sel_labor) * (sel_days * 0.4)
-delay_reasons['labor'] = base_delay
+# Calculate advanced delay analysis
+delay_analysis = ai_analyzer.calculate_advanced_delay(
+    labor_eff=sel_labor,
+    region=sel_region,
+    size=sel_size,
+    budget=sel_budget,
+    days=sel_days,
+    risk_desc=sel_expected_risks
+)
 
-# 2. Weather Impact (15% for hot regions like Riyadh/NEOM, 5% for others)
-weather_delay = sel_days * 0.15 if sel_region in ["قطاع الرياض", "نيوم", "Riyadh", "NEOM"] else sel_days * 0.05
-delay_reasons['weather'] = weather_delay
-
-# 3. Project Scale Impact (Small: 0.7x, Medium: 1.0x, Large: 1.3x, Mega: 1.6x)
-size_factors = {"صغير": 0.7, "متوسط": 1.0, "كبير": 1.3, "ضخم": 1.6,
-                "Small": 0.7, "Medium": 1.0, "Large": 1.3, "Mega": 1.6}
-size_factor = size_factors.get(sel_size, 1.0)
-size_delay = sel_days * 0.06 * (size_factor - 0.7)
-delay_reasons['scale'] = size_delay
-
-# 4. Budget Adequacy Impact (high budget = less delay)
-budget_per_day = sel_budget / sel_days if sel_days > 0 else 0
-if budget_per_day > 50000:
-    budget_impact = 0.0
-elif budget_per_day > 20000:
-    budget_impact = 0.04
-else:
-    budget_impact = 0.10
-budget_delay = sel_days * budget_impact
-delay_reasons['budget'] = budget_delay
-
-# 5. Risk Complexity Impact (based on expected risks description length)
-risk_words = len(sel_expected_risks.split()) if sel_expected_risks else 0
-risk_complexity = min(0.15, (risk_words / 100) * 0.15)
-risk_delay = sel_days * risk_complexity
-delay_reasons['risks'] = risk_delay
-
-# Total Expected Delay
-total_delay = base_delay + weather_delay + size_delay + budget_delay + risk_delay
+delay_reasons = delay_analysis['components']
+total_delay = delay_analysis['total']
 p_var = round(total_delay, 1)
 
-# Determine Primary Reason (max contributing factor)
-primary_reason_key = max(delay_reasons, key=delay_reasons.get)
+# Determine primary reason with AI
+primary_reason_key = delay_analysis['primary_factor']
 reason_map = {
-    "labor": "كفاءة العمالة منخفضة" if lang_choice == "🇸🇦 AR" else "Low labor efficiency",
-    "weather": "تأثر بالعوامل المناخية" if lang_choice == "🇸🇦 AR" else "Weather impact high",
-    "scale": "حجم المشروع كبير" if lang_choice == "🇸🇦 AR" else "Large project scale",
-    "budget": "الميزانية غير كافية" if lang_choice == "🇸🇦 AR" else "Budget constraints",
-    "risks": "تعقيدات مخاطر عالية" if lang_choice == "🇸🇦 AR" else "High risk complexity"
+    "labor": "كفاءة العمالة منخفضة | Low labor efficiency",
+    "weather": "تأثر بالعوامل المناخية | Weather impact",
+    "scale": "حجم المشروع كبير | Large project scale",
+    "budget": "الميزانية غير كافية | Budget constraints",
+    "risks": "تعقيدات مخاطر عالية | High risk complexity"
 }
-delay_primary_reason = reason_map.get(primary_reason_key, "عوامل متعددة" if lang_choice == "🇸🇦 AR" else "Multiple factors")
+delay_primary_reason = reason_map.get(primary_reason_key, "عوامل متعددة | Multiple factors")
 
-risk_percentage = min(int((p_var / sel_days) * 100) + 15, 95)
-cost_overrun_val = min(int((p_var / sel_days) * 35), 100)
+# Advanced AI Risk Calculation
+risk_percentage = ai_analyzer.calculate_ai_risk_percentage(
+    delay=total_delay,
+    days=sel_days,
+    labor_eff=sel_labor,
+    budget=sel_budget
+)
 
-# --- NEW INDICATORS ---
-# 1. INFLATION RATE CALCULATION
-# Base rate for Saudi Arabia (3-4% annual)
-base_inflation = 3.5
-# Adjustment based on project duration and budget constraints
-if sel_days > 365:
-    inflation_rate = base_inflation + (sel_days / 365 - 1) * 0.8  # +0.8% per additional year
-else:
-    inflation_rate = base_inflation * (sel_days / 365)
+# Advanced Cost Overrun Calculation
+cost_overrun_val = ai_analyzer.calculate_advanced_cost_overrun(
+    delay=total_delay,
+    days=sel_days,
+    budget=sel_budget,
+    labor_eff=sel_labor
+)
 
-# Adjustment based on region (hot regions have higher inflation impact)
-if sel_region in ["قطاع الرياض", "نيوم", "Riyadh", "NEOM"]:
-    inflation_rate *= 1.15
+# Advanced Inflation Rate
+inflation_rate = ai_analyzer.calculate_advanced_inflation(
+    region=sel_region,
+    days=sel_days,
+    budget=sel_budget
+)
 
-inflation_rate = round(max(0.5, min(inflation_rate, 8.0)), 2)
+# Advanced Carbon Footprint
+carbon_footprint = ai_analyzer.calculate_advanced_carbon(
+    region=sel_region,
+    size=sel_size,
+    days=sel_days,
+    labor_eff=sel_labor
+)
 
-# 2. CARBON FOOTPRINT CALCULATION
-# Base emissions by project scale (in tons CO2)
-carbon_base = {
-    "صغير": 50, "متوسط": 150, "كبير": 400, "ضخم": 800,
-    "Small": 50, "Medium": 150, "Large": 400, "Mega": 800
-}
-carbon_emissions = carbon_base.get(sel_size, 100)
+# Generate AI Insights
+ai_insights = ai_analyzer.generate_ai_insights(
+    delay_analysis=delay_analysis,
+    cost_overrun=cost_overrun_val,
+    risk_level=risk_percentage,
+    compliance=0  # Will be calculated below
+)
 
-# Regional adjustment (hot regions require more cooling = more emissions)
-if sel_region in ["قطاع الرياض", "نيوم", "Riyadh", "NEOM"]:
-    carbon_emissions *= 1.3
-elif sel_region in ["جدة", "Jeddah"]:
-    carbon_emissions *= 1.1
-
-# Duration adjustment (longer projects = more emissions)
-carbon_emissions *= (sel_days / 180)
-
-# Labor efficiency adjustment (better efficiency = lower emissions)
-carbon_emissions *= (1.1 - sel_labor * 0.1)
-
-carbon_footprint = round(carbon_emissions, 1)
+# Predict timeline scenarios
+timeline_scenarios = ai_analyzer.predict_timeline_scenarios(
+    current_delay=total_delay,
+    days=sel_days
+)
 
 # 3. REQUIREMENTS COMPLIANCE ASSESSMENT
 # Scoring system based on project parameters
@@ -483,6 +463,22 @@ def create_sparkline(color, volatility=1.0):
     fig.update_layout(height=80, margin=dict(l=0, r=0, t=10, b=10), xaxis_visible=False, yaxis_visible=False, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", showlegend=False)
     return fig, data
 
+def get_weather_data(region):
+    """Get weather information for the selected region"""
+    weather_info = {
+        "قطاع الرياض": {"temp": "38°C", "condition": "صافي", "humidity": "25%", "wind": "15 كم/س"},
+        "Riyadh": {"temp": "38°C", "condition": "Clear", "humidity": "25%", "wind": "15 km/h"},
+        "نيوم": {"temp": "32°C", "condition": "صافي جزئياً", "humidity": "35%", "wind": "20 كم/س"},
+        "NEOM": {"temp": "32°C", "condition": "Partly Clear", "humidity": "35%", "wind": "20 km/h"},
+        "جدة": {"temp": "34°C", "condition": "غائم", "humidity": "65%", "wind": "18 كم/س"},
+        "Jeddah": {"temp": "34°C", "condition": "Cloudy", "humidity": "65%", "wind": "18 km/h"},
+        "الشرقية": {"temp": "36°C", "condition": "صافي", "humidity": "40%", "wind": "12 كم/س"},
+        "Eastern": {"temp": "36°C", "condition": "Clear", "humidity": "40%", "wind": "12 km/h"},
+        "عسير": {"temp": "28°C", "condition": "ممطر", "humidity": "55%", "wind": "25 كم/س"},
+        "Asir": {"temp": "28°C", "condition": "Rainy", "humidity": "55%", "wind": "25 km/h"}
+    }
+    return weather_info.get(region, {"temp": "N/A", "condition": "N/A", "humidity": "N/A", "wind": "N/A"})
+
 def create_kpi_donut(value, color, max_val=100):
     fig = go.Figure(go.Pie(
         values=[value, max_val-value],
@@ -502,11 +498,8 @@ def create_kpi_donut(value, color, max_val=100):
     return fig
 
 # --- 7. MAIN DASHBOARD ---
-# Show loading or dashboard based on session state
+# Show dashboard automatically with real-time updates
 if st.session_state.show_dashboard:
-    if st.session_state.loading:
-        st.info("⏳ جاري تحديث البيانات... | Processing Data...", icon="⏳")
-        
     # Executive Summary
     st.markdown(f"""
 <div class="dash-card" style="padding:15px; margin-bottom:15px; background: linear-gradient(135deg, #f0f4ff 0%, #fffbf0 100%); border-left: 4px solid #3b82f6;">
@@ -582,36 +575,88 @@ if st.session_state.show_dashboard:
             if (idx + 1) % 3 == 0:
                 st.markdown("<div style='margin-bottom:8px;'></div>", unsafe_allow_html=True)
 
-    # Row 2: Sparklines
+    # Row 2: Sparklines with numeric values
     st.markdown("<div style='margin-top:10px;'></div>", unsafe_allow_html=True)
     sp1, sp2, sp3, sp4 = st.columns(4)
 
+    # Supply Chain - Calculate value based on region and delay
+    supply_chain_value = int(80 - (total_delay * 0.5))
+    if sel_region in ["قطاع الرياض", "نيوم", "Riyadh", "NEOM"]:
+        supply_chain_value = max(60, supply_chain_value - 10)
+    
     fig_weather, data_weather = create_sparkline("#3b82f6", 1.5)
     with sp1:
         st.markdown(f"<div class='dash-card' style='padding:10px;'>", unsafe_allow_html=True)
-        st.markdown(f"<div class='section-title' style='margin-bottom:5px;'>🚛 {t['supply_chain']}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='section-title' style='margin-bottom:8px;'>🚛 {t['supply_chain']}</div>", unsafe_allow_html=True)
         st.plotly_chart(fig_weather, use_container_width=True, config={'displayModeBar': False})
+        st.markdown(f"""
+        <div style="text-align: center; padding-top: 5px; border-top: 1px solid rgba(59, 130, 246, 0.2);">
+            <div style="font-size: 20px; font-weight: 700; color: #3b82f6;">{supply_chain_value}%</div>
+            <div style="font-size: 11px; opacity: 0.7;">Availability</div>
+        </div>
+        """, unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
+    # Labor Performance - Based on labor efficiency input
+    labor_performance = int(sel_labor * 100)
+    
     fig_materials, data_materials = create_sparkline("#10b981", 0.5)
     with sp2:
         st.markdown(f"<div class='dash-card' style='padding:10px;'>", unsafe_allow_html=True)
-        st.markdown(f"<div class='section-title' style='margin-bottom:5px;'>👷 {t['labor']}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='section-title' style='margin-bottom:8px;'>👷 {t['labor']}</div>", unsafe_allow_html=True)
         st.plotly_chart(fig_materials, use_container_width=True, config={'displayModeBar': False})
+        st.markdown(f"""
+        <div style="text-align: center; padding-top: 5px; border-top: 1px solid rgba(16, 185, 129, 0.2);">
+            <div style="font-size: 20px; font-weight: 700; color: #10b981;">{labor_performance}%</div>
+            <div style="font-size: 11px; opacity: 0.7;">Efficiency</div>
+        </div>
+        """, unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
+    # Material Availability - Based on project size
+    size_multiplier = {"صغير": 90, "متوسط": 80, "كبير": 70, "ضخم": 60, "Small": 90, "Medium": 80, "Large": 70, "Mega": 60, "Giga": 50, "Infrastructure": 55}
+    material_availability = size_multiplier.get(sel_size, 75)
+    
     fig_labor, data_labor = create_sparkline("#eab308", 0.8)
     with sp3:
         st.markdown(f"<div class='dash-card' style='padding:10px;'>", unsafe_allow_html=True)
-        st.markdown(f"<div class='section-title' style='margin-bottom:5px;'>🔨 {t['materials']}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='section-title' style='margin-bottom:8px;'>🔨 {t['materials']}</div>", unsafe_allow_html=True)
         st.plotly_chart(fig_labor, use_container_width=True, config={'displayModeBar': False})
+        st.markdown(f"""
+        <div style="text-align: center; padding-top: 5px; border-top: 1px solid rgba(234, 179, 8, 0.2);">
+            <div style="font-size: 20px; font-weight: 700; color: #eab308;">{material_availability}%</div>
+            <div style="font-size: 11px; opacity: 0.7;">Available</div>
+        </div>
+        """, unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
-    fig_supply, data_supply = create_sparkline("#8b5cf6", 2.0)
+    # Weather Information Display
+    weather_data = get_weather_data(sel_region)
     with sp4:
         st.markdown(f"<div class='dash-card' style='padding:10px;'>", unsafe_allow_html=True)
-        st.markdown(f"<div class='section-title' style='margin-bottom:5px;'>☁️ {t['weather']}</div>", unsafe_allow_html=True)
-        st.plotly_chart(fig_supply, use_container_width=True, config={'displayModeBar': False})
+        st.markdown(f"<div class='section-title' style='margin-bottom:8px;'>☁️ {t['weather']}</div>", unsafe_allow_html=True)
+        st.markdown(f"""
+        <div style="background-color: rgba(139, 92, 246, 0.05); border-radius: 8px; padding: 12px; border: 1px solid rgba(139, 92, 246, 0.2);">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13px;">
+                <div>
+                    <div style="opacity: 0.7; font-size: 11px; margin-bottom: 3px;">🌡️ {t.get('temp', 'Temperature')}</div>
+                    <div style="font-weight: 600; color: #8b5cf6; font-size: 14px;">{weather_data['temp']}</div>
+                </div>
+                <div>
+                    <div style="opacity: 0.7; font-size: 11px; margin-bottom: 3px;">📊 {t.get('humidity', 'Humidity')}</div>
+                    <div style="font-weight: 600; color: #8b5cf6; font-size: 14px;">{weather_data['humidity']}</div>
+                </div>
+                <div>
+                    <div style="opacity: 0.7; font-size: 11px; margin-bottom: 3px;">🌥️ {t.get('condition', 'Condition')}</div>
+                    <div style="font-weight: 600; color: #8b5cf6; font-size: 12px;">{weather_data['condition']}</div>
+                </div>
+                <div>
+                    <div style="opacity: 0.7; font-size: 11px; margin-bottom: 3px;">💨 {t.get('wind', 'Wind')}</div>
+                    <div style="font-weight: 600; color: #8b5cf6; font-size: 14px;">{weather_data['wind']}</div>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
     # Row 3: Map, Compliance, Integration
@@ -677,8 +722,131 @@ if st.session_state.show_dashboard:
         </div>
         """, unsafe_allow_html=True)
 
+    # AI-Powered Insights Section
+    st.markdown("<div style='margin-top:15px;'></div>", unsafe_allow_html=True)
+    st.markdown(f"<h3 style='margin: 10px 0; color: #ef4444;'>🤖 AI-Powered Insights | استنتاجات من الذكاء الاصطناعي</h3>", unsafe_allow_html=True)
+    
+    # Risk Severity Indicator
+    severity_colors = {
+        'Critical': '#ef4444',
+        'High': '#f59e0b',
+        'Medium': '#eab308',
+        'Low': '#10b981'
+    }
+    severity_color = severity_colors.get(ai_insights['severity'], '#6b7280')
+    
+    insight_col1, insight_col2, insight_col3 = st.columns(3)
+    
+    with insight_col1:
+        st.markdown(f"""
+        <div class="dash-card" style="padding:12px; background: {severity_color}15; border: 2px solid {severity_color};">
+            <div style="font-weight:600; font-size:12px; color:{severity_color}; margin-bottom:8px;">Risk Severity</div>
+            <div style="font-size:20px; font-weight:700; color:{severity_color};">{ai_insights['severity']}</div>
+            <div style="font-size:11px; opacity:0.7; margin-top:8px;">Confidence: {ai_insights['confidence']*100:.0f}%</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with insight_col2:
+        st.markdown(f"""
+        <div class="dash-card" style="padding:12px; background: #f3f4f615; border: 2px solid #3b82f6;">
+            <div style="font-weight:600; font-size:12px; color:#3b82f6; margin-bottom:8px;">Primary Recommendation</div>
+            <div style="font-size:12px; color:#333; line-height:1.5;">{ai_insights['primary_recommendation']}</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with insight_col3:
+        st.markdown(f"""
+        <div class="dash-card" style="padding:12px; background: #10b98115; border: 2px solid #10b981;">
+            <div style="font-weight:600; font-size:12px; color:#10b981; margin-bottom:8px;">Timeline Scenarios</div>
+            <div style="font-size:11px; line-height:1.5;">
+                <div>✓ Best: {timeline_scenarios['best_case']} days</div>
+                <div>→ Realistic: {timeline_scenarios['realistic_case']} days</div>
+                <div>✗ Worst: {timeline_scenarios['worst_case']} days</div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Secondary Recommendations
+    st.markdown("<div style='margin-top:12px;'></div>", unsafe_allow_html=True)
+    st.markdown(f"<div style='font-weight:600; font-size:13px; margin-bottom:8px;'>Secondary Recommendations:</div>", unsafe_allow_html=True)
+    
+    for idx, rec in enumerate(ai_insights['secondary_recommendations'], 1):
+        st.markdown(f"""
+        <div style="padding:10px; background:#f9fafb; border-left: 3px solid #3b82f6; margin-bottom:8px; border-radius:4px;">
+            <div style="font-size:12px; color:#333;"><b>{idx}.</b> {rec}</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # Delay Contributing Factors Analysis
+    st.markdown("<div style='margin-top:15px;'></div>", unsafe_allow_html=True)
+    st.markdown(f"<h3 style='margin: 10px 0;'>📈 Delay Contributing Factors | العوامل المساهمة في التأخيرات</h3>", unsafe_allow_html=True)
+    
+    delay_factors = delay_reasons
+    total_factors = sum(delay_factors.values())
+    
+    factor_cols = st.columns(len(delay_factors))
+    factor_labels_ar = {
+        'labor': 'كفاءة العمالة',
+        'weather': 'الطقس',
+        'scale': 'حجم المشروع',
+        'budget': 'الميزانية',
+        'risks': 'المخاطر'
+    }
+    factor_labels_en = {
+        'labor': 'Labor Efficiency',
+        'weather': 'Weather',
+        'scale': 'Project Scale',
+        'budget': 'Budget',
+        'risks': 'Risks'
+    }
+    
+    factor_colors = {
+        'labor': '#ef4444',
+        'weather': '#3b82f6',
+        'scale': '#8b5cf6',
+        'budget': '#f59e0b',
+        'risks': '#06b6d4'
+    }
+    
+    for idx, (factor, value) in enumerate(delay_factors.items()):
+        percentage = (value / total_factors * 100) if total_factors > 0 else 0
+        label_en = factor_labels_en.get(factor, factor)
+        label_ar = factor_labels_ar.get(factor, factor)
+        color = factor_colors.get(factor, '#6b7280')
+        
+        with factor_cols[idx]:
+            st.markdown(f"""
+            <div class="dash-card" style="padding:12px; background: {color}15; border: 2px solid {color}; text-align:center;">
+                <div style="font-size:11px; opacity:0.8;">{label_ar}</div>
+                <div style="font-size:11px; opacity:0.8;">{label_en}</div>
+                <div style="font-size:22px; font-weight:700; color:{color}; margin:8px 0;">{percentage:.0f}%</div>
+                <div style="font-size:10px; opacity:0.7;">{value:.1f} days</div>
+            </div>
+            """, unsafe_allow_html=True)
+
     # Row 5: Detailed Report
     st.markdown(f"<h3 style='margin: 15px 0 10px 0; direction:ltr; text-align:left;'>📊 Detailed Analytical Report</h3>", unsafe_allow_html=True)
+    
+    # Timeline Scenario Visualization
+    st.markdown("<div style='margin: 15px 0 10px 0;'><h4 style='margin:0;'>📅 Project Timeline Scenarios</h4></div>", unsafe_allow_html=True)
+    
+    scenario_data = [
+        ('✅ Best Case', timeline_scenarios['best_case'], '#10b981'),
+        ('→ Realistic Case', timeline_scenarios['realistic_case'], '#f59e0b'),
+        ('⚠️ Worst Case', timeline_scenarios['worst_case'], '#ef4444')
+    ]
+    
+    scenario_cols = st.columns(3)
+    for col_idx, (label, days_val, color) in enumerate(scenario_data):
+        with scenario_cols[col_idx]:
+            st.markdown(f"""
+            <div class="dash-card" style="padding:15px; background: {color}15; border: 2px solid {color}; text-align:center;">
+                <div style="font-weight:600; color:{color}; margin-bottom:8px;">{label}</div>
+                <div style="font-size:28px; font-weight:700; color:{color};">{days_val}</div>
+                <div style="font-size:12px; opacity:0.7; margin-top:8px;">Days Delay</div>
+                <div style="font-size:11px; opacity:0.6; margin-top:4px;">±{timeline_scenarios['confidence_interval']} days</div>
+            </div>
+            """, unsafe_allow_html=True)
     st.markdown(f"""
 <div class="dash-card" style="padding:15px; direction:ltr; text-align:left;">
     <p>
