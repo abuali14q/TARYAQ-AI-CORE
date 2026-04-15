@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import time
 from datetime import datetime
 import plotly.graph_objects as go
 import plotly.express as px
@@ -8,7 +9,9 @@ from ai_analysis import AIProjectAnalyzer
 
 # --- Initialize Session State ---
 if 'show_dashboard' not in st.session_state:
-    st.session_state.show_dashboard = True
+    st.session_state.show_dashboard = False
+if 'is_loading' not in st.session_state:
+    st.session_state.is_loading = False
 
 # --- 1. SETTINGS ---
 st.set_page_config(page_title="TARYAQ | AI Prediction", page_icon="🏗️", layout="wide")
@@ -289,8 +292,11 @@ with st.sidebar:
     # Labor efficiency as number input instead of slider
     sel_labor = st.number_input(t["labor_eff"], min_value=0.1, max_value=1.0, value=0.85, step=0.05)
     
-    # Dashboard is now shown automatically and updates with each change
-    st.session_state.show_dashboard = True
+    # Update button
+    st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
+    if st.button(t["update_btn"], use_container_width=True, type="primary", key="update_button"):
+        st.session_state.is_loading = True
+        st.session_state.show_dashboard = False
     
     # Import Features Section
     st.divider()
@@ -320,6 +326,34 @@ with st.sidebar:
         """, unsafe_allow_html=True)
         st.file_uploader("", type=["xlsx", "csv"], key="csv_upload", disabled=True)
         st.markdown("</div>", unsafe_allow_html=True)
+
+# --- LOADING STATE ---
+if st.session_state.is_loading:
+    # Show loading message
+    st.markdown("""
+    <div style="text-align: center; padding: 60px 20px;">
+        <div style="font-size: 48px; margin-bottom: 20px;">⚙️</div>
+        <h2 style="color: #334155; margin-bottom: 20px;">جاري التحليل... | Analyzing...</h2>
+        <p style="font-size: 16px; color: #64748b; margin-bottom: 20px;">
+            يتم معالجة بيانات المشروع بواسطة محرك الذكاء الاصطناعي
+        </p>
+        <p style="font-size: 14px; color: #94a3b8;">
+            Processing project data with AI Engine
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Fake loading indicator with progress bar
+    progress_bar = st.progress(0)
+    for i in range(4):
+        progress_percentage = int((i / 4) * 100)
+        progress_bar.progress(progress_percentage)
+        time.sleep(1)
+    
+    progress_bar.progress(100)
+    st.session_state.is_loading = False
+    st.session_state.show_dashboard = True
+    st.rerun()
 
 # --- ADVANCED AI ANALYSIS ENGINE ---
 ai_analyzer = AIProjectAnalyzer()
@@ -456,12 +490,99 @@ def create_gauge(val):
     return fig
 
 def create_sparkline(color, volatility=1.0):
+    """Create an enhanced line chart similar to the reference image"""
     data = np.random.randn(15) * volatility
     data = data.cumsum()
-    fig = px.line(y=data)
-    fig.update_traces(line_color=color, line_width=3)
-    fig.update_layout(height=80, margin=dict(l=0, r=0, t=10, b=10), xaxis_visible=False, yaxis_visible=False, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", showlegend=False)
+    
+    fig = go.Figure()
+    
+    # Add the line with better styling
+    fig.add_trace(go.Scatter(
+        y=data,
+        mode='lines+markers',
+        line=dict(
+            color=color,
+            width=4,
+            shape='spline'
+        ),
+        marker=dict(
+            size=8,
+            color=color,
+            line=dict(width=2, color='white')
+        ),
+        fill='tozeroy',
+        fillcolor=f'rgba({int(color[1:3], 16)}, {int(color[3:5], 16)}, {int(color[5:7], 16)}, 0.1)',
+        hovertemplate='<b>Value:</b> %{y:.1f}<extra></extra>'
+    ))
+    
+    fig.update_layout(
+        height=150,
+        margin=dict(l=0, r=0, t=5, b=0),
+        xaxis=dict(
+            visible=False,
+            showgrid=False,
+            zeroline=False
+        ),
+        yaxis=dict(
+            visible=True,
+            showgrid=True,
+            gridwidth=1,
+            gridcolor='rgba(200, 200, 200, 0.2)',
+            zeroline=False
+        ),
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        showlegend=False,
+        hovermode='x unified'
+    )
+    
     return fig, data
+
+def create_kpi_line_chart(value, color, max_val=100):
+    """Create a line chart for KPI display"""
+    # Generate realistic data for the trend
+    trend_data = np.linspace(max_val * 0.3, value, 12)
+    trend_data = trend_data + np.random.randn(12) * (max_val * 0.05)
+    trend_data = np.clip(trend_data, 0, max_val)
+    
+    fig = go.Figure()
+    
+    fig.add_trace(go.Scatter(
+        y=trend_data,
+        mode='lines+markers',
+        line=dict(
+            color=color,
+            width=3,
+            shape='spline'
+        ),
+        marker=dict(
+            size=6,
+            color=color,
+            line=dict(width=1, color='white')
+        ),
+        fill='tozeroy',
+        fillcolor=f'rgba({int(color[1:3], 16)}, {int(color[3:5], 16)}, {int(color[5:7], 16)}, 0.08)',
+        hovertemplate='<b>Trend:</b> %{y:.0f}%<extra></extra>'
+    ))
+    
+    fig.update_layout(
+        height=120,
+        margin=dict(l=0, r=0, t=5, b=0),
+        xaxis=dict(visible=False, showgrid=False),
+        yaxis=dict(
+            visible=True,
+            showgrid=True,
+            gridwidth=0.5,
+            gridcolor='rgba(200, 200, 200, 0.15)',
+            range=[0, max_val],
+            zeroline=False
+        ),
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        showlegend=False
+    )
+    
+    return fig
 
 def get_weather_data(region):
     """Get weather information for the selected region"""
@@ -558,18 +679,17 @@ if st.session_state.show_dashboard:
             </div>
             """, unsafe_allow_html=True)
             
-            # Donut chart
-            fig_kpi = create_kpi_donut(value, color, max_val)
-            col1, col2 = st.columns([1.2, 1])
-            with col1:
-                st.plotly_chart(fig_kpi, use_container_width=False, config={'displayModeBar': False})
-            with col2:
-                st.markdown(f"""
-                <div style="display:flex; flex-direction:column; justify-content:center; height:100px;">
-                    <div style="font-size:24px; font-weight:700; color:{color};">{value}{suffix}</div>
-                    <div style="font-size:11px; color:#666; margin-top:4px;">Value</div>
-                </div>
-                """, unsafe_allow_html=True)
+            # Line chart instead of donut
+            fig_kpi = create_kpi_line_chart(value, color, max_val)
+            st.plotly_chart(fig_kpi, use_container_width=True, config={'displayModeBar': False})
+            
+            # Display value
+            st.markdown(f"""
+            <div style="text-align: center; padding: 10px 0;">
+                <div style="font-size:28px; font-weight:700; color:{color};">{value}{suffix}</div>
+                <div style="font-size:11px; color:#666; margin-top:4px;">Current Value</div>
+            </div>
+            """, unsafe_allow_html=True)
             
             # Spacing between rows
             if (idx + 1) % 3 == 0:
@@ -724,7 +844,7 @@ if st.session_state.show_dashboard:
 
     # AI-Powered Insights Section
     st.markdown("<div style='margin-top:15px;'></div>", unsafe_allow_html=True)
-    st.markdown(f"<h3 style='margin: 10px 0; color: #ef4444;'>🤖 AI-Powered Insights | استنتاجات من الذكاء الاصطناعي</h3>", unsafe_allow_html=True)
+    st.markdown(f"<h3 style='margin: 10px 0; color: #ef4444;'>🤖  Insights | استنتاجات </h3>", unsafe_allow_html=True)
     
     # Risk Severity Indicator
     severity_colors = {
